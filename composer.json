@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ezyang/htmlpurifier": "^4.16",
         "filament/filament": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.8",
@@ -13,8 +14,11 @@
         "laravel/jetstream": "^3.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "league/html-to-markdown": "^5.1",
         "livewire/livewire": "^2.11",
-        "tightenco/ziggy": "^1.0"
+        "phpoffice/phpword": "^1.0",
+        "tightenco/ziggy": "^1.0",
+        "u01jmg3/docx2md": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
