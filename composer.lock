@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f33433eaf0cc6a3fc144060e6019b34",
+    "content-hash": "b8ef66779710abb759f6d41cdf53ea5f",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -4903,6 +4903,52 @@
                 }
             ],
             "time": "2023-01-27T15:33:45+00:00"
+        },
+        {
+            "name": "stevenbuehner/bible-verse-bundle",
+            "version": "2.5.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stevenbuehner/BibleVerseBundle.git",
+                "reference": "9b5e0361f5233c00fd440edc7e9522748a8fa123"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stevenbuehner/BibleVerseBundle/zipball/9b5e0361f5233c00fd440edc7e9522748a8fa123",
+                "reference": "9b5e0361f5233c00fd440edc7e9522748a8fa123",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">5.3"
+            },
+            "require-dev": {
+                "phpdocumentor/reflection-docblock": "2.0",
+                "phpunit/phpunit": "^4.8",
+                "symfony/yaml": "~2.1",
+                "twig/twig": "^1.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StevenBuehner\\BibleVerseBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steven Buehner",
+                    "email": "buehner@me.com"
+                }
+            ],
+            "description": "A highly tested library to parse, identify, merge store and work with bibleverses.",
+            "support": {
+                "issues": "https://github.com/stevenbuehner/BibleVerseBundle/issues",
+                "source": "https://github.com/stevenbuehner/BibleVerseBundle/tree/2.5.10"
+            },
+            "time": "2022-03-16T16:00:27+00:00"
         },
         {
             "name": "symfony/console",

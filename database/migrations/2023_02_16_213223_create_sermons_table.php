@@ -13,11 +13,16 @@ return new class extends Migration {
         Schema::create('sermons', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title', 256);
-            $table->text('sermon_summary');
-            $table->text('sermon_text');
-            $table->date('delivered_on');
-            $table->string('location', 256);
+            $table->string('title', 256)->nullable();
+            $table->date('delivered_on')->nullable();
+            $table->string('location', 256)->nullable();
+            $table->string('feast', 256)->nullable();
+            $table->text('sermon_summary')->nullable();
+            $table->text('sermon_text')->nullable();
+            $table->text('sermon_markup')->nullable();
+            $table->string('file_name', 256)->nullable();
+            $table->string('file', 256)->nullable();
+            $table->text('readings')->nullable();
         });
     }
 

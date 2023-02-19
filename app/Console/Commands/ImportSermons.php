@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Sermon;
 use App\Services\SermonParser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,17 @@ class ImportSermons extends Command
         $parser = new SermonParser();
         $file_list = $this->getFileList();
         foreach ($file_list as $file) {
-            $this->info($parser->parse($file));
+            $item = $parser->parse($file);
+            if (!$item) {
+                $this->error($file);
+            }
+            $readings = implode('; ', $item['readings']);
+            var_dump($item);
+            $sermon = Sermon::updateOrCreate(
+                ['file_name' => $item['file_name']],
+                ['delivered_on' => $item['date'], 'location' => $item['church'], 'feast' => $item['feast'], 'sermon_summary' => null, 'sermon_text' => $item['text'], 'sermon_markup' => $item['html'], 'file_name' => $item['file_name'], 'file' => $item['path'], 'readings' => $readings]
+            );
+            print($sermon->id);
         }
 
     }
@@ -39,7 +50,8 @@ class ImportSermons extends Command
     {
         $files = Storage::allfiles();
         $files = array_filter($files, function ($item) {
-            return strpos($item, '.docx') and strpos($item, 'ublic/sermons/');
+
+            return strpos($item, '/~') === false && strpos($item, '.docx') && strpos($item, 'ublic/sermons/');
         });
         return $files;
     }

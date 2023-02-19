@@ -17,6 +17,7 @@
         "league/html-to-markdown": "^5.1",
         "livewire/livewire": "^2.11",
         "phpoffice/phpword": "^1.0",
+        "stevenbuehner/bible-verse-bundle": "^2.5",
         "tightenco/ziggy": "^1.0",
         "u01jmg3/docx2md": "^1.0"
     },

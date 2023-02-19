@@ -2,32 +2,47 @@
 
 namespace App\Services;
 
+use App\Utils\BibleVerseServiceExtended as BibleVerseService;
 use App\Utils\FindDate;
 use Carbon\Carbon;
+use Carbon\Exceptions\OutOfRangeException;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Writer\HTML;
+use TypeError;
+use ValueError;
 
 class SermonParser
 {
-    public function parse($path): string
-    {
 
-        $phpWord = IOFactory::load(Storage::path($path));
+    public function parse($path): array
+    {
+        $this->path = $path;
+        try {
+            $phpWord = IOFactory::load(Storage::path($path));
+        } catch (ValueError $e) {
+            return false;
+        }
         $html = $this->getHTML($phpWord);
         $text = $this->getText($html);
         $lines = $this->getLines($text);
         $date = $this->getDate($text);
         $church = $this->getChurch($lines);
         $feast = $this->getFeast($lines);
-        var_dump($feast);
-
-
-        die("");
-
-        return "Parsed path $path";
+        $readings = $this->getReadings($text);
+        $file_name = $this->getFileName($path);
+        return [
+            "path" => $path,
+            "file_name" => $file_name,
+            "readings" => $readings,
+            "feast" => $feast,
+            "church" => $church,
+            "date" => $date,
+            "text" => $text,
+            "html" => $html,
+        ];
     }
 
     protected function getHTML($content): string
@@ -72,7 +87,14 @@ class SermonParser
 
     protected function getDate($text): Carbon|false
     {
-        return FindDate::findDate($text);
+        try {
+            $date = FindDate::findDate($text);
+        } catch (OutOfRangeException $e) {
+            return false;
+        } catch (TypeError $e) {
+            return false;
+        }
+        return $date;
     }
 
     protected function getChurch($lines): string
@@ -94,5 +116,46 @@ class SermonParser
         return trim($line[0]);
     }
 
+    public function getReadings($text): array
+    {
+        $service = new BibleVerseService();
+        $verses = $service->stringToBibleVerse($text);
+        $grouped_verses = [];
+        foreach ($verses as $verse) {
+            $grouped_verses[$verse->getFromBookId()][] = $verse;
+        }
+        $result = [];
+        foreach ($grouped_verses as $group) {
+            if (count($group) == 1) {
+                $result[] = $service->bibleVerseToString($group[0], lang: "en");
+            } else {
+                $result[] = $service->nonContiguousVersesToString($group, lang: "en");
+            }
+
+        }
+        return $result;
+    }
+
+    protected function getFileName($path): string
+    {
+        $file_name = explode('/', $path);
+        $file_name = end($file_name);
+        return $file_name;
+
+    }
+
+//    protected function getCombinedString($a, $b)
+//    {
+//        if ($a->getFromBookId() != $b->getFromBookId()) {
+//            return false;
+//        }
+//        if ($a->getToChaper() == $b->getFromChapter()) {
+//            $book = $this->bibleData[$bibleVerse->getFromBookId()] ["desc"] [$lang] ["long"]
+//        }
+//
+//
+//    }
+
 
 }
+
