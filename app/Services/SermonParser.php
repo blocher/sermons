@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Location;
 use App\Utils\BibleVerseServiceExtended as BibleVerseService;
 use App\Utils\FindDate;
 use Carbon\Carbon;
@@ -28,11 +29,13 @@ class SermonParser
         $html = $this->getHTML($phpWord);
         $text = $this->getText($html);
         $lines = $this->getLines($text);
-        $date = $this->getDate($text);
-        $church = $this->getChurch($lines);
+        $file_name = $this->getFileName($path);
+        $date = $this->getDate($text, $file_name);
+
+        $church = $this->getChurch($text, $file_name);
         $feast = $this->getFeast($lines);
         $readings = $this->getReadings($text);
-        $file_name = $this->getFileName($path);
+
         return [
             "path" => $path,
             "file_name" => $file_name,
@@ -85,8 +88,26 @@ class SermonParser
         return $lines;
     }
 
-    protected function getDate($text): Carbon|false
+    protected function getFileName($path): string
     {
+        $file_name = explode('/', $path);
+        $file_name = end($file_name);
+        return $file_name;
+
+    }
+
+    protected function getDate($text, $file_name): Carbon|false
+    {
+        preg_match('/\d{1,2}.\d{1,2}.\d{2}/', $file_name, $output_array);
+        if (count($output_array) > 0) {
+            $match = $output_array[0];
+            $match = str_replace(['-', ' '], '.', $match);
+            $date = Carbon::createFromFormat('m.d.y', $match);
+            $date->hour = 0;
+            $date->minute = 0;
+            $date->second = 0;
+            return $date;
+        }
         try {
             $date = FindDate::findDate($text);
         } catch (OutOfRangeException $e) {
@@ -94,14 +115,34 @@ class SermonParser
         } catch (TypeError $e) {
             return false;
         }
+        $date->hour = 0;
+        $date->minute = 0;
+        $date->second = 0;
         return $date;
     }
 
-    protected function getChurch($lines): string
+    protected function getChurch($text, $filename): string
     {
-        $line = $lines[0];
-        $line = str_ireplace(["Elizabeth", "Locher", "Lowe"], "", $line);
-        return trim($line);
+        $csv = array_map("str_getcsv", file(Storage::path('locationmappings.csv'), FILE_SKIP_EMPTY_LINES));
+        $keys = array_shift($csv);
+        foreach ($csv as $i => $row) {
+            $csv[$i] = array_combine($keys, $row);
+        }
+        foreach ($csv as $mapping) {
+            if (strpos($text, $mapping['needle']) !== false || strpos($filename, $mapping['needle']) !== false) {
+                if (trim($mapping['city']) != "") {
+                    $res = Location::where('name', $mapping['name'])->where('city', $mapping['city'])->first();
+                } else {
+                    $res = Location::where('name', $mapping['name'])->first();
+                }
+                if (!$res) {
+                    var_dump($mapping, "POOP!");
+                    die();
+                }
+                return $res->name;
+            }
+        }
+        return "";
     }
 
     protected function getFeast($lines): string
@@ -134,14 +175,6 @@ class SermonParser
 
         }
         return $result;
-    }
-
-    protected function getFileName($path): string
-    {
-        $file_name = explode('/', $path);
-        $file_name = end($file_name);
-        return $file_name;
-
     }
 
 //    protected function getCombinedString($a, $b)

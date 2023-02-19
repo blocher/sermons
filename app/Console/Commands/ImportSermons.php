@@ -50,8 +50,12 @@ class ImportSermons extends Command
     {
         $files = Storage::allfiles();
         $files = array_filter($files, function ($item) {
+            $not_temp_file = strpos($item, '/~') === false;
+            $is_docx = strpos($item, '.docx') !== false;
+            $in_sermon_folder = strpos($item, 'public/sermons/') !== false;
+            $not_extraneous = strpos($item, 'Jan 5-6') === false;
 
-            return strpos($item, '/~') === false && strpos($item, '.docx') && strpos($item, 'ublic/sermons/');
+            return $not_temp_file && $is_docx && $in_sermon_folder && $not_extraneous;
         });
         return $files;
     }
