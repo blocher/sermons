@@ -14,7 +14,7 @@ class ImportLocations extends Command
      *
      * @var string
      */
-    protected $signature = 'sermons:locations';
+    protected $signature = 'sermons:importlocations';
 
     /**
      * The console command description.

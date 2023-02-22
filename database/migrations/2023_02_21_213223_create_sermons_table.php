@@ -15,14 +15,19 @@ return new class extends Migration {
             $table->timestamps();
             $table->string('title', 256)->nullable();
             $table->date('delivered_on')->nullable();
-            $table->string('location', 256)->nullable();
-            $table->string('feast', 256)->nullable();
+            $table->bigInteger('location_id')->nullable()->unsigned();
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('set null');
+            $table->bigInteger('feast_id')->nullable()->unsigned();
+            $table->foreign('feast_id')->references('id')->on('holidays')->onDelete('set null');
+            $table->integer('proper')->unsigned()->nullable();
+            $table->string('mass_year', 1)->nullable();
             $table->text('sermon_summary')->nullable();
             $table->text('sermon_text')->nullable();
             $table->text('sermon_markup')->nullable();
             $table->string('file_name', 256)->nullable();
             $table->string('file', 256)->nullable();
             $table->text('readings')->nullable();
+
         });
     }
 

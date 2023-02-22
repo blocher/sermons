@@ -12,4 +12,9 @@ class Sermon extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $dates = ['delivered_on'];
+
+    public function feast(): BelongsTo
+    {
+        return $this->belongsTo(Holiday::class);
+    }
 }

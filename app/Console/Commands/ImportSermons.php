@@ -36,12 +36,11 @@ class ImportSermons extends Command
                 $this->error($file);
             }
             $readings = implode('; ', $item['readings']);
-            var_dump($item);
             $sermon = Sermon::updateOrCreate(
                 ['file_name' => $item['file_name']],
-                ['delivered_on' => $item['date'], 'location' => $item['church'], 'feast' => $item['feast'], 'sermon_summary' => null, 'sermon_text' => $item['text'], 'sermon_markup' => $item['html'], 'file_name' => $item['file_name'], 'file' => $item['path'], 'readings' => $readings]
+                ['delivered_on' => $item['date'], 'location' => $item['church'], 'feast_id' => $item['feast']->id, 'sermon_summary' => null, 'sermon_text' => $item['text'], 'sermon_markup' => $item['html'], 'file_name' => $item['file_name'], 'file' => $item['path'], 'readings' => $readings, 'title' => $item['title'], 'proper' => $item['proper'], 'mass_year' => $item['mass_year']]
             );
-            print($sermon->id);
+            print($sermon->id . ' ' . $sermon->file_name . PHP_EOL);
         }
 
     }
@@ -53,8 +52,13 @@ class ImportSermons extends Command
             $not_temp_file = strpos($item, '/~') === false;
             $is_docx = strpos($item, '.docx') !== false;
             $in_sermon_folder = strpos($item, 'public/sermons/') !== false;
-            $not_extraneous = strpos($item, 'Jan 5-6') === false;
-
+            $not_extraneous = true;
+            $exclude_phrases = ['Reflections on the Passion', 'Jan 5-6', 'Advent Reopening Final', 'Advent Brookline 6.21.20 - Bulletin', 'Advent Sermon 3.7.21', "- Bulletin", "Good Shepherd 3.17.19.docx", "website", "8.10.14.docx", "printing copy", "2.20.11.docx"];
+            foreach ($exclude_phrases as $phrase) {
+                if (strpos($item, $phrase) !== false) {
+                    $not_extraneous = false;
+                }
+            }
             return $not_temp_file && $is_docx && $in_sermon_folder && $not_extraneous;
         });
         return $files;
