@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Application;
+use App\Http\Livewire\Sermons;
+use App\Http\Livewire\ShowSermon;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,15 +15,18 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,x
+//    ]);
+//});x
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', Sermons::class)->name('home');
+Route::get('/sermon/{sermon}', ShowSermon::class)->name('sermon');
 
 Route::middleware([
     'auth:sanctum',

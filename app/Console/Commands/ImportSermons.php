@@ -38,7 +38,7 @@ class ImportSermons extends Command
             $readings = implode('; ', $item['readings']);
             $sermon = Sermon::updateOrCreate(
                 ['file_name' => $item['file_name']],
-                ['delivered_on' => $item['date'], 'location' => $item['church'], 'feast_id' => $item['feast']->id, 'sermon_summary' => null, 'sermon_text' => $item['text'], 'sermon_markup' => $item['html'], 'file_name' => $item['file_name'], 'file' => $item['path'], 'readings' => $readings, 'title' => $item['title'], 'proper' => $item['proper'], 'mass_year' => $item['mass_year']]
+                ['delivered_on' => $item['date'], 'location_id' => $item['church']->id, 'feast_id' => $item['feast']->id, 'sermon_summary' => null, 'sermon_text' => $item['text'], 'sermon_markup' => $item['html'], 'file_name' => $item['file_name'], 'file' => $item['path'], 'readings' => $readings, 'title' => $item['title'], 'proper' => $item['proper'], 'mass_year' => $item['mass_year']]
             );
             print($sermon->id . ' ' . $sermon->file_name . PHP_EOL);
         }

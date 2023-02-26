@@ -6,17 +6,23 @@
 
     <title>{{ config('app.name', 'Sermons') }}</title>
 
-    {{--    <!-- Fonts -->--}}
-    {{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
-    {{--    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>--}}
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
-    <!-- Scripts -->
-    @routes
-    @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
-
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    {{--    <!-- Scripts -->--}}
+    {{--    @routes--}}
+    {{--    @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])--}}
 </head>
 <body>
-<livewire:sermons/>
+<div class="container mx-auto m-5 ">
+    <main class="w-5xl max-w-5xl mx-auto p-5">
+        <h1>Sermons</h1>
+        <div class="m-5 w-full">
+            {{ $slot }}
+        </div>
+    </main>
+</div>
+
 </body>
 </html>

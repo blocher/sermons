@@ -44,7 +44,7 @@ class SermonParser
 
         $proper = $this->getProper($date);
         $mass_year = $this->getMassYear($date);
-
+        print($church);
         return [
             "path" => $path,
             "file_name" => $file_name,
@@ -134,7 +134,7 @@ class SermonParser
         return $date;
     }
 
-    protected function getChurch($text, $filename): string
+    protected function getChurch($text, $filename): Location
     {
         $csv = array_map("str_getcsv", file(Storage::path('locationmappings.csv'), FILE_SKIP_EMPTY_LINES));
         $keys = array_shift($csv);
@@ -152,7 +152,7 @@ class SermonParser
                     var_dump($mapping, "POOP!");
                     die();
                 }
-                return $res->name;
+                return $res;
             }
         }
         return "";

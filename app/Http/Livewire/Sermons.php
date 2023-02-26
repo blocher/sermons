@@ -14,4 +14,9 @@ class Sermons extends Component
         $this->sermons = Sermon::orderBy('delivered_on', 'desc')->get();
         return view('livewire.sermons');
     }
+
+    public function goToSermon($sermon = null)
+    {
+        return redirect()->route('sermon', $sermon);
+    }
 }

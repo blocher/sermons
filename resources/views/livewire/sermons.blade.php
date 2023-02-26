@@ -1,53 +1,15 @@
 <div>
-    <header>
-        <h1>Sermons</h1>
-    </header>
-    <main>
-        <table>
-            <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    Date
-                </th>
-                <th>
-                    Location
-                </th>
-                <th>
-                    Feast
-                </th>
-            </tr>
+    <h1>Sermons</h1>
+    <div class="overflow-x-auto">
+        <table class="table w-full">
             @foreach ($sermons as $sermon)
-                <tr>
-                    <td>
-                        {{ $sermon->id }}
-                    </td>
-                    <td>
-                        @if ($sermon->delivered_on)
-                            {{ $sermon->delivered_on }}
-                        @else
-                            ??
-                        @endif
-                    </td>
-                    <td>
-                        @if ($sermon->location)
-                            {{ $sermon->location }}
-                        @else
-                            ??
-                        @endif
-                    </td>
-                    <td>
-                        @if ($sermon->feast)
-                            {{ $sermon->feast }}
-                        @else
-                            ??
-                        @endif
-                    </td>
+                <tr wire:click="goToSermon({{ $sermon->id }})" class="hover cursor-pointer">
+                    <td class="border px-4 py-2">{{ $sermon->title }}</td>
+                    <td class="border px-4 py-2">{{ $sermon->delivered_on->format("j M, Y")}}</td>
+                    <td class="border px-4 py-2">{{ $sermon->feast->name }}</td>
+                    <td class="border px-4 py-2">{{ $sermon->location->displayName }}</td>
                 </tr>
             @endforeach
         </table>
-
-        {% endfor %}
-    </main>
+    </div>
 </div>
