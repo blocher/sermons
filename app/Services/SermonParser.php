@@ -28,6 +28,7 @@ class SermonParser
         } catch (ValueError $e) {
             return false;
         }
+
         $html = $this->getHTML($phpWord);
         $text = $this->getText($html);
         $file_name = $this->getFileName($path);
@@ -64,6 +65,7 @@ class SermonParser
         $htmlWriter = new HTML($content);
         $html = $htmlWriter->getContent();
         $html = $this->cleanHTML($html);
+        $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
         return $html;
     }
 
