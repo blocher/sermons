@@ -1,33 +1,50 @@
 <div>
-    <h1>{{ $sermon->title }}</h1>
-    <div class="grid gap-4 not-prose grid-cols-1 md:grid-cols-2">
-        <div>
-            <div class="card bg-base-100 shadow-xl h-full">
-                <div class="card-body">
-                    <h2 class="card-title leading-snug">{{ $sermon->delivered_on->format("l F j, Y") }}</h2>
+    <h1 div="ui header">{{ $sermon->title }}</h1>
 
-                    <div class="avatar inline-block" style="display:inline-block !important;">
-                        <div class="w-12 rounded-full inline-block mr-3" style="display:inline-block !important;">
-                            <img src="{{ Storage::url("public/elizabeth.jpeg") }}"/>
-                        </div>
-                        The Reverend Elizabeth Locher
-                    </div>
-                    <p class="text-sm">{{ $sermon->feast->name }}<br/>{{ $sermon->location->displayName }}</p>
+    <div class="ui fluid raised card">
+        <div class="content">
+            <div class="ui grid two column">
+                <div class="column">
+                    <h3>{{ $sermon->delivered_on->format("l F j, Y") }}</h3>
+                    <p>{{ $sermon->feast->name }}</p>
                 </div>
+                <div class="column">
+                    <p><img class="ui avatar image" src="{{ Storage::url("public/elizabeth.jpeg") }}"> <strong>The
+                            Rev.
+                            Elizabeth Locher</strong></p>
+                    <p>{{ $sermon->location->displayName }}</p>
+
+                </div>
+
             </div>
         </div>
-
-        <div>
-            <div class="card bg-base-100 shadow-xl h-full">
-                <div class="card-body">
-                    <h2 class="card-title">Readings</h2>
-                    @foreach ($sermon->readingsArray as $reading)
-                        <p>{{ $reading }}</p>
-                    @endforeach
-                </div>
-            </div>
-        </div>
+        {{--        <div class="content">--}}
+        {{--            @foreach ($sermon->readings as $reading)--}}
+        {{--                <h4 class="m-0">{{ $reading->passage }}</h4>--}}
+        {{--                <p class="m-0">{{ $reading->headings }}</p>--}}
+        {{--            @endforeach--}}
+        {{--        </div>--}}
     </div>
-    <div class="text-justify">{!! $sermon->sermon_markup  !!}</div>
+
+
+    <div class="ui styled accordion fluid">
+        @foreach ($sermon->readings as $reading)
+            <div class="title">
+                <i class="dropdown icon"></i> {{ $reading->passage }}<br><br>{{ $reading->headings }}
+            </div>
+            <div class="content">
+                {!! $reading->noHeadings() !!}
+            </div>
+        @endforeach
+    </div>
+
+
+    {{--    <h5>Other sermons with this reading</h5>--}}
+    {{--                            @foreach ($reading->other_sermons as $sermon)--}}
+    {{--                                <p><a href="{{ route('sermon', $sermon->id) }}">{{ $sermon->title }}</a></p>--}}
+    {{--                            @endforeach--}}
+
+
+    <div class="ui container sermon">{!! $sermon->sermon_markup  !!}</div>
 
 </div>

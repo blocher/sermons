@@ -11,11 +11,14 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Styles -->
-    @livewireStyles
+    {{--    <!-- Styles -->--}}
+    {{--    @livewireStyles--}}
 </head>
 <body class="font-sans antialiased">
 <x-banner/>
@@ -38,13 +41,21 @@
 {{--    </main>--}}
 {{--</div>--}}
 
-<div class="container mx-auto">
-    <main class=" max-w-4xl mx-auto p-5 prose">
-        <div class="m-5">
-            {{ $slot }}
-        </div>
-    </main>
-</div>
+
+<main>
+    <div class="ui top fixed menu">
+        <a href="/">
+            <div class="header item">
+                <img class="ui avatar image" src="{{ Storage::url("public/elizabeth.jpeg") }}">
+                Elizabeth Locher's Sermons
+            </div>
+        </a>
+    </div>
+    <div class="ui main container">
+
+        {{ $slot }}
+    </div>
+</main>
 
 @stack('modals')
 

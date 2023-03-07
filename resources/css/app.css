@@ -1,3 +1,30 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*@tailwind base;*/
+/*@tailwind components;*/
+/*@tailwind utilities;*/
+@import "fomantic-ui/dist/semantic.css";
+
+.main {
+    margin-top: 70px;
+}
+
+.sermon {
+    margin: 30px;
+    padding: 25px 0;
+    text-align: justify;
+}
+
+.link-card {
+    cursor: pointer;
+}
+
+.link-card:hover {
+    background-color: lightgray !important;
+}
+
+/*.topbar {*/
+/*    margin: 20px !important;*/
+/*    position: fixed !important;*/
+
+/*    top: 0;*/
+/*    height: 50px;*/
+/*}*/

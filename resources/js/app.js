@@ -1,5 +1,8 @@
 import './bootstrap';
-import '../css/app.css';
+// import "fomantic-ui/dist/semantic.js";
+// import '../css/app.css';
+
+$('.ui.accordion').accordion({exclusive: false});
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
