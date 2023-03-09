@@ -3,14 +3,21 @@
 /*@tailwind utilities;*/
 @import "fomantic-ui/dist/semantic.css";
 
+body {
+    color: #303030;
+
+}
+
 .main {
     margin-top: 70px;
 }
 
+
 .sermon {
     margin: 30px;
-    padding: 25px 0;
+    padding: 40px !important;
     text-align: justify;
+    font-size: 1.3em;
 }
 
 .link-card {

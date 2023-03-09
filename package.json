@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "fomantic-ui": "^2.9.2",
+        "instantsearch.js": "^4.51.1",
         "jquery": "^3.6.3",
         "uikit": "^3.16.3"
     }

@@ -2,7 +2,11 @@ import './bootstrap';
 // import "fomantic-ui/dist/semantic.js";
 // import '../css/app.css';
 
-$('.ui.accordion').accordion({exclusive: false});
+$('.ui.accordion').accordion({
+    exclusive: false, selector: {
+        trigger: '.title, .content'
+    }
+});
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 

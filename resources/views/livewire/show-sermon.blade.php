@@ -28,14 +28,22 @@
 
 
     <div class="ui styled accordion fluid">
-        @foreach ($sermon->readings as $reading)
-            <div class="title">
-                <i class="dropdown icon"></i> {{ $reading->passage }}<br><br>{{ $reading->headings }}
-            </div>
-            <div class="content">
+        <div class="title ">
+            <i class="right dropdown icon"></i>
+            <h4 style="margin-top:0;">Readings</h4>
+
+            @foreach ($sermon->readings as $reading)
+                <p><strong>{{ $reading->passage }}:</strong> {{ $reading->headings }}</p>
+            @endforeach
+
+        </div>
+        <div class="content ">
+            @foreach ($sermon->readings as $reading)
+                <p style="margin-top: 20px;">
+                    <strong>{{ $reading->passage }}</strong><br><em>{{ $reading->headings }}</em></p>
                 {!! $reading->noHeadings() !!}
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 
 
@@ -45,6 +53,6 @@
     {{--                            @endforeach--}}
 
 
-    <div class="ui container sermon">{!! $sermon->sermon_markup  !!}</div>
+    <div class="ui piled segment sermon">{!! $sermon->sermon_markup  !!}</div>
 
 </div>
