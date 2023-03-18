@@ -7,30 +7,10 @@
         "laravel"
     ],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": ""
-        }
-    ],
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "torrix/laravel-uikit",
-                "version": "0.1.5.1",
-                "type": "library",
-                "source": {
-                    "url": "https://github.com/blocher/laravel-uikit",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        }
-    ],
     "require": {
         "php": "^8.2",
         "algolia/scout-extended": "^3.0",
+        "atomescrochus/laravel-string-similarities": "^2.1",
         "ezyang/htmlpurifier": "^4.16",
         "fabpot/goutte": "^4.0",
         "filament/filament": "^2.0",
@@ -41,10 +21,12 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.11",
+        "nlp-tools/nlp-tools": "^0.1.3",
+        "orhanerday/open-ai": "^4.7",
         "phpoffice/phpword": "^1.0",
         "stevenbuehner/bible-verse-bundle": "^2.5",
-        "tightenco/ziggy": "^1.0",
-        "torrix/laravel-uikit": "0.1.5.1"
+        "tga/simhash-php": "^2.0",
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

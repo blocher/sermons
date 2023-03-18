@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
+use Tga\SimHash\Comparator\GaussianComparator;
+use Tga\SimHash\Extractor\SimpleTextExtractor;
+use Tga\SimHash\SimHash;
 
 class Sermon extends Model
 {
@@ -87,8 +91,44 @@ class Sermon extends Model
         return $array;
     }
 
+    public function similarReadings(): array|Collection
+    {
+        // return Sermon that have at least one of the same readings as this sermon
+        return Sermon::whereHas('readings', function ($query) {
+            $query->whereIn('readings.id', $this->readings->pluck('id'));
+        })->where('sermons.id', '!=', $this->id)->get();
+    }
+
     public function readings(): BelongsToMany
     {
         return $this->belongsToMany(Reading::class, "sermon_reading");
     }
+
+    public function getSimilarSermons(): array|Collection
+    {
+        $similar = [];
+        $text1 = $this->sermon_text;
+        $simhash = new SimHash();
+        $extractor = new SimpleTextExtractor();
+        $comparator = new GaussianComparator(3);
+
+        $fp1 = $simhash->hash($extractor->extract($text1), SimHash::SIMHASH_64);
+
+        $sermons = Sermon::where("id", "!=", $this->id)->get();
+        foreach ($sermons as $sermon) {
+            $text2 = $sermon->sermon_text;
+            $fp2 = $simhash->hash($extractor->extract($text2), SimHash::SIMHASH_64);
+            $sim = $comparator->compare($fp1, $fp2);
+            if ($sim > 0.6) {
+                $sermon->percent_match = round($sim * 100, 2);
+                $similar[] = $sermon;
+            }
+        }
+        usort($similar, function ($a, $b) {
+            return $a->percent_match < $b->percent_match;
+        });
+        return $similar;
+
+    }
+
 }

@@ -5,17 +5,18 @@
 
 body {
     color: #303030;
+    padding-bottom: 300px !important;
 
 }
 
 .main {
-    margin-top: 70px;
+    margin: 70px;
 }
 
 
-.sermon {
+.ui.segment.sermon {
     margin: 30px;
-    padding: 40px !important;
+    padding: 55px !important;
     text-align: justify;
     font-size: 1.3em;
 }
@@ -26,6 +27,10 @@ body {
 
 .link-card:hover {
     background-color: lightgray !important;
+}
+
+.footer {
+    min-height: 75px !important;
 }
 
 /*.topbar {*/

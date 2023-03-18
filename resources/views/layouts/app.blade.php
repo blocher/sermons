@@ -52,9 +52,9 @@
         </a>
     </div>
     <div class="ui main container">
-
         {{ $slot }}
     </div>
+    <div class="footer">&nbsp;</div>
 </main>
 
 @stack('modals')
