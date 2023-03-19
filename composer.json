@@ -11,6 +11,7 @@
         "php": "^8.2",
         "algolia/scout-extended": "^3.0",
         "atomescrochus/laravel-string-similarities": "^2.1",
+        "buchin/google-image-grabber": "dev-master",
         "ezyang/htmlpurifier": "^4.16",
         "fabpot/goutte": "^4.0",
         "filament/filament": "^2.0",
@@ -37,6 +38,12 @@
         "phpunit/phpunit": "^10.0",
         "spatie/laravel-ignition": "^2.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/buchin/google-image-grabber.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/",

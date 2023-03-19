@@ -22,12 +22,19 @@
             <div class="">
                 @foreach ($sermons as $sermon)
                     <div class="ui card fluid link-card" wire:click="goToSermon({{ $sermon->id }})">
-                        <div class="content">
+                        <div class="content">,
                             <div class="meta">{{ $sermon->delivered_on->format("F j, Y") }}</div>
                             <div class="header">{{ $sermon->title }}</div>
                             <div class="meta">{{ $sermon->feast->name }}</div>
                             <div class="description">
-                                <p>{{ $sermon->sermon_summary }}</p>
+                                <div class="ui grid">
+                                    <div class="six wide column">
+                                        <img class="ui  image" src="{{ $sermon->imageURL }}">
+                                    </div>
+                                    <div class="ten wide column">
+                                        <p>{{ $sermon->sermon_summary }}</p>
+                                    </div>
+                                </div>
                                 <div class="ui divider"></div>
                                 <div class="ui grid">
                                     @foreach ($sermon->readings as $reading)

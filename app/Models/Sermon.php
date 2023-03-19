@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use Tga\SimHash\Comparator\GaussianComparator;
 use Tga\SimHash\Extractor\SimpleTextExtractor;
@@ -129,6 +131,20 @@ class Sermon extends Model
         });
         return $similar;
 
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function getImageURLAttribute()
+    {
+        if (count($this->images->all())) {
+            return Storage::url($this->images->first()["file"]);
+        } else {
+            return "https://semantic-ui.com/images/wireframe/image.png";
+        }
     }
 
 }
